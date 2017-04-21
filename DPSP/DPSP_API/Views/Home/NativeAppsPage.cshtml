@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Login options";
+}
+
+<h2>@ViewBag.Title.</h2>
+@Html.AntiForgeryToken()
+<h4>Welcome to our system!</h4>
+<p>To get started, please <a href="http://localhost:65075/Account/Login">log in</a> to your account.</p>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,72 @@
+﻿@using DPSP_UI_LG.Helpers
+@model IEnumerable<DPSP_UI_LG.Models.ProjectViewModel>
+@{
+    ViewBag.Title = "Projects";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+
+@if (Ident.IsLogged && Model != null)
+{
+    using (Html.BeginForm("GetProject", "Project", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        foreach (var item in Model)
+        {
+            <div class="col-md-12 pull-left">
+                <h4>PROJECT - @item.Name</h4>
+            </div>
+
+            <div class="col-md-12 pull-left">
+                <span>@item.Introduction</span>
+            </div>
+            <div class="col-md-3">
+                <span>Name: @item.Name</span>
+            </div>
+            <div class="col-md-3">
+                <span>Manager: @item.Manager</span>
+            </div>
+            <div class="col-md-6">
+                <span>Employees: @item.Employees</span>
+            </div>
+            <div class="col-md-3">
+                <span>Client: @item.Client</span>
+            </div>
+            <div class="col-md-3">
+                <span>Department: @item.Department</span>
+            </div>
+            <div class="col-md-6">
+                <span>OpenDate: @item.OpenDate</span>
+            </div>
+            @*<div class="col-md-12">
+                    <span>@item.Content</span>
+                </div>*@
+            //if(Ident.isClient)
+            <div class="col-md-6">
+                <span>Conclusion: @item.Conclusion</span>
+            </div>
+            <div class="col-md-6">
+                <span>Budget: @item.Budget</span>
+            </div>
+            <div class="col-md-6">
+                @Html.CheckBoxFor(x => item.ForShare, new { id = @item.Name, @class = "form-control" })
+            </div>
+        }
+
+        @*@Html.HiddenFor(model => model, new { @id = "odata", @class = "form-control" })*@
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Share" />
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p>No projects</p>
+
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

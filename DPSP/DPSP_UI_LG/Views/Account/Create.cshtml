@@ -1,0 +1,64 @@
+﻿@model DPSP_UI_LG.Models.CreateUserModel
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("Create", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Create a new account.</h4>
+    <hr />
+    if (string.IsNullOrWhiteSpace(ViewBag.Body))
+    {
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+            </div>
+        </div>
+        // wrong way, should be with generic radiobuttonlistfor http://stackoverflow.com/questions/2512809/has-anyone-implement-radiobuttonlistfort-for-asp-net-mvc/2590001#2590001
+        // or with enum?
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="radio">
+                    @Html.RadioButtonFor(m => m.Role, "Client")
+                    @Html.LabelFor(m => m.Role, "Client")
+                </div>
+                <div class="radio">
+                    @Html.RadioButtonFor(m => m.Role, "Employee")
+                    @Html.LabelFor(m => m.Role, "Employee")
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @*<a href="http://localhost:63705/api/Account/Create" type="submit" class="btn btn-default">Create</a>*@
+                <input type="submit" class="btn btn-default" value="Create" />
+                @*<li><a href="http://localhost:63705/api/Account/Create">Projekty</a></li>*@
+            </div>
+        </div>
+    }
+    else
+    {
+        @Html.Raw(ViewBag.Body)
+    }
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

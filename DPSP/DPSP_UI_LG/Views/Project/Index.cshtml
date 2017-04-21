@@ -1,0 +1,24 @@
+﻿@model DPSP_UI_LG.Models.ProjectViewModel
+@{
+    ViewBag.Title = "Project";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<div class="col-md-3">
+    <span>Name: @Model.Name</span>
+</div>
+<div class="col-md-3">
+    <span>Manager: @Model.Manager</span>
+</div>
+<div class="col-md-6">
+    <span>Employees: @Model.Employees</span>
+</div>
+<div class="col-md-12">
+    <span>@Model.Introduction</span>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

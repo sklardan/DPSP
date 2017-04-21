@@ -1,0 +1,21 @@
+﻿@model DPSP_UI_LG.Models.RedirectToCompleteCreation
+@{
+    ViewBag.Title = "RedirectToCompleteCreation";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("RedirectToCompleteCreation", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>RedirectToCompleteCreation.</h4>
+    <hr />
+
+    <span>@Model.Body</span>
+
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
