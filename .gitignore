@@ -243,6 +243,7 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/DPSP/DPSP_UI
 /DPSP/DPSP_UI2.Tests
 /DPSP/DPSP_UI2
-/DPSP/DPSP_UI
+
