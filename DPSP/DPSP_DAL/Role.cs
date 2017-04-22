@@ -10,7 +10,6 @@ namespace DPSP_DAL
         [Required]
         [MaxLength(MediumColumnLength)]
         public string Name { get; set; }
-        //public string Name => RoleType.GetName(typeof(RoleType), Enum);
 
         [Range(0, 1)]
         public RoleType Enum { get; set; }

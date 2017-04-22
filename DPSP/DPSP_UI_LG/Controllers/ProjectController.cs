@@ -66,12 +66,15 @@ namespace DPSP_UI_LG.Controllers
             }
         }
 
+
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> GetProject(EmailViewModel model)
+        public ActionResult GetProject(ProjectViewModel model)
         {
-            return View("Share", model);
+            var projects = model;
+            return View("Share");
         }
 
 

@@ -9,20 +9,11 @@ namespace DPSP_DAL
 
         }
 
-
         public DbSet<User> Users { get; set; }
-
-        //public DbSet<UserType> UserTypes { get; set; }
 
         public DbSet<Role> Roles { get; set; }
 
-        //public DbSet<UserToRole> UserToRoles { get; set; }
-
         public DbSet<Project> Projects { get; set; }
-
-        //public DbSet<UserToProject> UserToProjects { get; set; }
-
-        //public DbSet<Hobby> Hobbies { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

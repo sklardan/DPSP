@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Web.Http;
+﻿using DPSP_DAL;
 using Microsoft.Owin.Security.OAuth;
-using Newtonsoft.Json.Serialization;
+using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.OData.Builder;
 using System.Web.Http.OData.Extensions;
-using DPSP_DAL;
-using System.Web.Http.Cors;
 
 namespace DPSP_API
 {
@@ -16,8 +11,8 @@ namespace DPSP_API
     {
         public static void Register(HttpConfiguration config)
         {
-            //var container = UnityConfig.GetConfiguredContainer();
-            //config.DependencyResolver = new UnityResolver(container);
+            var container = UnityConfig.GetConfiguredContainer();
+            config.DependencyResolver = new UnityResolver(container);
 
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.

@@ -1,47 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using DPSP_BLL;
+using DPSP_DAL;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Data.OData;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
 using System.Web.Http.OData;
 using System.Web.Http.OData.Query;
-using System.Web.Http.OData.Routing;
-using DPSP_DAL;
-using DPSP_BLL;
-using Microsoft.Data.OData;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 
 namespace DPSP_API.Controllers
 {
     /*
     The WebApiConfig class may require additional changes to add a route for this controller. Merge these statements into the Register method of the WebApiConfig class as applicable. Note that OData URLs are case sensitive.
-
-    using System.Web.Http.OData.Builder;
-    using System.Web.Http.OData.Extensions;
-    using DPSP_DAL;
-    ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-    builder.EntitySet<Project>("Project");
-    config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
     */
     [Authorize]
     public class ProjectController : ODataController
     {
         private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
 
-        //private IProjectService service;
+        private IProjectService service;
 
         private ApplicationUserManager _userManager;
 
-        //public ProjectController() { }
-
-        //public ProjectController(IProjectService service)
-        //{
-        //    this.service = service;
-        //}
+        public ProjectController(IProjectService service)
+        {
+            this.service = service;
+        }
 
         public ApplicationUserManager UserManager
         {
@@ -59,7 +44,6 @@ namespace DPSP_API.Controllers
         [EnableQuery]
         public IHttpActionResult GetProject(ODataQueryOptions<Project> queryOptions,string userName)
         {
-            var service = new ProjectService();
             var aspUser = UserManager.Users.FirstOrDefault(x => x.UserName == userName);
             var projects = service.GetUserProjects(aspUser.Id);
             return Ok(projects);

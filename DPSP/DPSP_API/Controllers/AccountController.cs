@@ -1,28 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.ModelBinding;
+﻿using DPSP_API.Models;
+using DPSP_API.Providers;
+using DPSP_API.Results;
+using DPSP_DAL;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using DPSP_API.Models;
-using DPSP_API.Providers;
-using DPSP_API.Results;
-using DPSP_DAL;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http.Cors;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Http;
 
 namespace DPSP_API.Controllers
 {
-    [EnableCors(origins: "http://localhost:65075", headers: "*", methods: "*",SupportsCredentials = true)]
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
@@ -163,49 +160,6 @@ namespace DPSP_API.Controllers
             }
 
             return Ok();
-        }
-
-        ////
-        //// GET: api/Account/ResetPassword
-        //[AllowAnonymous]
-        //public async Task<IHttpActionResult> ResetPassword(string code)
-        //{
-        //    return code == null ? Ok("Error") : Ok("");
-        //}
-
-        //
-        // POST: api/Account/ResetPassword
-        [HttpPost]
-        [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        public async Task<IHttpActionResult> ResetPassword(ResetPasswordViewModel model)
-        {
-            var user = await UserManager.FindByNameAsync(model.Email);
-            if (user == null)
-            {
-                var error = new IdentityResult("Invalid token.");
-                AddErrors(error);
-                return Ok(error);
-                // Don't reveal that the user does not exist
-                //return RedirectToAction("ResetPasswordConfirmation", "Account");
-            }
-            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-            if (result.Succeeded)
-            {
-                //await ResetPasswordConfirmation(user);
-                return Ok("Password was reseted");
-                //return Redirect("api/Account/ResetPasswordConfirmation");
-            }
-            AddErrors(result);
-            return Ok(result.Errors);
-        }
-
-        //
-        // GET: api/Account/ResetPasswordConfirmation
-        [AllowAnonymous]
-        public async Task<IHttpActionResult> ResetPasswordConfirmation()
-        {
-            return Ok("Password was reseted");
         }
 
         // POST api/Account/AddExternalLogin

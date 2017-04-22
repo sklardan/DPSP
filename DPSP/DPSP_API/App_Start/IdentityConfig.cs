@@ -1,9 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using DPSP_API.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
-using DPSP_API.Models;
 
 namespace DPSP_API
 {

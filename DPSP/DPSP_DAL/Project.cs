@@ -33,7 +33,6 @@ namespace DPSP_DAL
         [InverseProperty("Projects")]
         public virtual ICollection<User> Users { get; set; }
 
-
         //public virtual ICollection<AssignedUser> AssignedUsers { get; set; }
 
     }
