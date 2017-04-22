@@ -1,13 +1,11 @@
-﻿using System;
+﻿using DPSP_UI_LG.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using DPSP_UI_LG.Models;
-using DPSP_UI_LG.Helpers;
 
 namespace DPSP_UI_LG.Controllers
 {

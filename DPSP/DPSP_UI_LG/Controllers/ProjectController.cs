@@ -1,26 +1,9 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using DPSP_UI_LG.Models;
-
-using System.Collections;
-using System.Text;
-using System.Net;
-using System.IO;
-using Newtonsoft.Json.Linq;
-using System.Web.Script.Serialization;
-using System.Net.Http;
-using System.Collections.Generic;
-using System.Net.Http.Headers;
-using System.Web.Helpers;
+﻿using DPSP_UI_LG.Models;
 using Newtonsoft.Json;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace DPSP_UI_LG.Controllers
 {
@@ -62,11 +45,8 @@ namespace DPSP_UI_LG.Controllers
             {
                 return View("Error");
                     //Content($"{ex.Message} Response from server API: '{content}'");
-
             }
         }
-
-
 
         [HttpPost]
         [AllowAnonymous]
@@ -77,7 +57,6 @@ namespace DPSP_UI_LG.Controllers
             return View("Share");
         }
 
-
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -85,8 +64,5 @@ namespace DPSP_UI_LG.Controllers
         {
             return View("Confirmation");
         }
-
-
     }
-
 }
