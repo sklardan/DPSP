@@ -413,7 +413,7 @@ namespace DPSP_API.Controllers
                             LastName = model.LastName,
                             Status = UserStatus.Active,
                             Roles = db.Roles.Where(x => x.Name == model.Role).ToList(),
-                            Projects = db.Projects.Where(x => x.IsActive && model.Role == nameof(RoleType.Employee)).ToList()
+                            Projects = db.Projects.Where(x => x.IsActive && model.Role == nameof(RoleType.Client)).ToList()
                         });
                         db.SaveChanges();
                     }

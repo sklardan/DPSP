@@ -1,6 +1,7 @@
 ﻿using DPSP_UI_LG.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -23,8 +24,9 @@ namespace DPSP_UI_LG.Controllers
             try
             {
                 var comingOdata = JsonConvert.DeserializeObject<ODataProject>(content);
-                var project = comingOdata.Project.Select(x => new ProjectViewModel()
+                var project = comingOdata.Projects.Select(x => new ProjectViewModel()
                 {
+                    ProjectId = x.ProjectId,
                     Name = x.Name,
                     Department = x.Department,
                     Client = x.Client,
@@ -37,9 +39,13 @@ namespace DPSP_UI_LG.Controllers
                     OpenDate = x.OpenDate,
                     CloseDate = x.CloseDate,
                     ForShare = x.ForShare
-                });
-                if (comingOdata.Project.Count == 0) project = null;
-                return View(project);
+                }).ToList();
+                var listOfProjects = new ListProjectViewModel()
+                {
+                    ProjectViewModels = project
+                };
+                if (comingOdata.Projects.Count == 0) project = null;
+                return View(listOfProjects);
             }
             catch (Exception ex)
             {
@@ -51,10 +57,13 @@ namespace DPSP_UI_LG.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult GetProject(ProjectViewModel model)
+        public ActionResult GetProject(ListProjectViewModel model)
         {
-            var projects = model;
-            return View("Share");
+            var emailViewModel = model.ProjectViewModels.Where(x => x.ForShare).Select(x => new EmailViewModel()
+            {
+                ProjectIds = x.ProjectId
+            });
+            return View("Share"/*, emailViewModel*/);
         }
 
         [HttpPost]

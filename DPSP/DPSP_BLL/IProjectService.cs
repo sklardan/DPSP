@@ -1,4 +1,5 @@
-﻿using DPSP_DAL;
+﻿using DPSP_BLL.Models;
+using DPSP_DAL;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,5 +12,6 @@ namespace DPSP_BLL
     public interface IProjectService
     {
         IEnumerable<Project> GetUserProjects(string aspUserId);
+        IEnumerable<ProjectViewModel> RetypeToProjectViewModel(IEnumerable<Project> userProjects, IEnumerable<Role> roleType);
     }
 }

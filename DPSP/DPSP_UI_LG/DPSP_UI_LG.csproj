@@ -237,7 +237,6 @@
     </Compile>
     <Compile Include="Helpers\Request.cs" />
     <Compile Include="Helpers\Ident.cs" />
-    <Compile Include="Models\ProjectShareViewModel.cs" />
     <Compile Include="Models\ODataProject.cs" />
     <Compile Include="Models\TokenModel.cs" />
     <Compile Include="Models\ProjectViewModel.cs" />
@@ -312,6 +311,7 @@
     <Content Include="Views\Project\Share.cshtml" />
     <Content Include="Views\Project\Confirmation.cshtml" />
     <Content Include="Views\Account\ConfirmLogin.cshtml" />
+    <Content Include="Views\Project\ProjectItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

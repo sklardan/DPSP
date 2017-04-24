@@ -19,13 +19,15 @@ namespace DPSP_API.Controllers
     {
         private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
 
-        private IProjectService service;
+        private IProjectService projectService;
+        private IRoleService roleService;
 
         private ApplicationUserManager _userManager;
 
-        public ProjectController(IProjectService service)
+        public ProjectController(IProjectService projectService, IRoleService roleService)
         {
-            this.service = service;
+            this.projectService = projectService;
+            this.roleService = roleService;
         }
 
         public ApplicationUserManager UserManager
@@ -45,8 +47,10 @@ namespace DPSP_API.Controllers
         public IHttpActionResult GetProject(ODataQueryOptions<Project> queryOptions,string userName)
         {
             var aspUser = UserManager.Users.FirstOrDefault(x => x.UserName == userName);
-            var projects = service.GetUserProjects(aspUser.Id);
-            return Ok(projects);
+            var userProjects = projectService.GetUserProjects(aspUser.Id);
+            var listOfProjects = projectService.RetypeToProjectViewModel(userProjects, roleService.GetRole(aspUser.Id));
+            //string json = Newtonsoft.Json.JsonConvert.SerializeObject(listOfProjects);
+            return Ok(listOfProjects);
         }
 
         // GET: odata/Project(5)

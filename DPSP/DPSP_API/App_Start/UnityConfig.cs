@@ -41,6 +41,7 @@ namespace DPSP_API
         private static void RegisterBusinessServices(IUnityContainer container)
         {
             container.RegisterType<IProjectService, ProjectService>();
+            container.RegisterType<IRoleService, RoleService>();
         }
 
 

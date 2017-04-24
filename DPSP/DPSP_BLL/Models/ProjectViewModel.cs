@@ -1,19 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using DPSP_DAL;
 using System;
 using System.Collections.Generic;
 
-namespace DPSP_UI_LG.Models
+namespace DPSP_BLL.Models
 {
     public class ProjectViewModel
     {
         public Guid ProjectId { get; set; }
 
-        [JsonProperty("odata.type")]
-        public string Type { set; get; }
-
         public string Name { get; set; }
 
-        public string Department { get; set; }
+        public Department Department { get; set; }
 
         public string Client { get; set; }
 
@@ -38,7 +35,7 @@ namespace DPSP_UI_LG.Models
 
     public class ListProjectViewModel
     {
-        public IList<ProjectViewModel> ProjectViewModels { get; set; }
+        public IEnumerable<ProjectViewModel> ProjectViewModels { get; set; }
     }
 
 

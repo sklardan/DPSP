@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DPSP_UI_LG.Models
@@ -137,6 +138,7 @@ namespace DPSP_UI_LG.Models
 
     public class EmailViewModel
     {
+        public Guid ProjectIds { get; set; }
         public string Email { get; set; }
     }
 
