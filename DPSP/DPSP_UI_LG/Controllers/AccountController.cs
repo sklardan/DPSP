@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
@@ -358,7 +359,7 @@ namespace DPSP_UI_LG.Controllers
         public ActionResult LogOff()
         {
             var url = Path.Combine(Configuration.DPSP_API_SERVER,"api/Account/Logout");
-            var content = Helpers.Request.ToApi(null, url,Helpers.ApiRequesType.POST);
+            var content = Helpers.Request.ToApi(null, url, Helpers.ApiRequesType.POST);
             Helpers.Ident.Clear();
             return RedirectToAction("Index", "Home");
         }
@@ -404,9 +405,10 @@ namespace DPSP_UI_LG.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CreateUserModel model)
         {
+            var jsonData = JsonConvert.SerializeObject(model);
             var url = Path.Combine(Configuration.DPSP_API_SERVER, "api/Account/Creation");
             var data = $"Email={model.Email}&FirstName={model.FirstName}&LastName={model.LastName}&Role={model.Role}";
-            var content = await Helpers.Request.ToApi(data, url, Helpers.ApiRequesType.POST);
+            var content = await Helpers.Request.ToApi(jsonData, url, Helpers.ApiRequesType.POST);
             return Content(content.ToString());
         }
 

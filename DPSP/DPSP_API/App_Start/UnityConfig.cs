@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Web;
 using DPSP_BLL;
 using DPSP_API.Controllers;
+using Microsoft.Owin.Security;
 
 namespace DPSP_API
 {
@@ -42,6 +43,9 @@ namespace DPSP_API
         {
             container.RegisterType<IProjectService, ProjectService>();
             container.RegisterType<IRoleService, RoleService>();
+            //container.RegisterType<IUserService, UserService>();
+            //container.RegisterType<ApplicationUserManager>();
+            //container.RegisterType<ISecureDataFormat<AuthenticationTicket>>();
         }
 
 

@@ -1,6 +1,7 @@
 ﻿using DPSP_API.Models;
 using DPSP_API.Providers;
 using DPSP_API.Results;
+using DPSP_BLL;
 using DPSP_DAL;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -26,16 +27,18 @@ namespace DPSP_API.Controllers
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
+        private IUserService userService;
 
         public AccountController()
         {
         }
 
         public AccountController(ApplicationUserManager userManager,
-            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+            ISecureDataFormat<AuthenticationTicket> accessTokenFormat, IUserService userService)
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
+            this.userService = userService;
         }
 
         public ApplicationUserManager UserManager
@@ -76,6 +79,7 @@ namespace DPSP_API.Controllers
         }
 
         // POST api/Account/Logout
+        //[HttpPost]
         [Route("Logout")]
         public IHttpActionResult Logout()
         {
@@ -123,6 +127,41 @@ namespace DPSP_API.Controllers
             };
         }
 
+        //[HttpPost]
+        //[System.Web.Mvc.ValidateAntiForgeryToken]
+        //public System.Web.Mvc.ActionResult ResetPassword(ResetPasswordViewModel model)
+        //{
+        //    if (model != null)
+        //    {
+        //        var code = model.Code.Replace(" ", "+");
+        //        if (!string.IsNullOrWhiteSpace(model.Email))
+        //        {
+        //            var user = UserManager.FindByName(model.Email);
+        //            if (user == null)
+        //            {
+        //                var error = new IdentityResult("Invalid token.");
+        //                ViewBag.Error = string.Join("<br/>", error.Errors);
+        //                return View(model);
+        //            }
+
+        //            if (!string.IsNullOrWhiteSpace(model.Password) && model.Password.Equals(model.ConfirmPassword))
+        //            {
+        //                var result = UserManager.ResetPassword(user.Id, code, model.Password);
+        //                if (result.Succeeded)
+        //                {
+        //                    return RedirectToAction("NativeAppsPage");
+        //                }
+        //                ViewBag.Error = string.Join("<br/>", result.Errors);
+        //            }
+        //        }
+        //        return View(model);
+        //    }
+        //    else
+        //    {
+        //        return View();
+        //    }
+        //}
+
         // POST api/Account/ChangePassword
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
@@ -134,7 +173,7 @@ namespace DPSP_API.Controllers
 
             IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
                 model.NewPassword);
-            
+
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -267,9 +306,9 @@ namespace DPSP_API.Controllers
             if (hasRegistered)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    OAuthDefaults.AuthenticationType);
+
+                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                   OAuthDefaults.AuthenticationType);
                 ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
@@ -377,7 +416,7 @@ namespace DPSP_API.Controllers
             result = await UserManager.AddLoginAsync(user.Id, info.Login);
             if (!result.Succeeded)
             {
-                return GetErrorResult(result); 
+                return GetErrorResult(result);
             }
             return Ok();
         }
@@ -399,48 +438,63 @@ namespace DPSP_API.Controllers
         [Route("Creation")]
         public async Task<IHttpActionResult> Creation(CreateUserBindingModel model)
         {
+            var tryUser = UserManager.FindByEmail(model.Email);
+            if (tryUser == null)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true };
                 var result = await UserManager.CreateAsync(user); // Create without password.
                 if (result.Succeeded)
                 {
-                    using (var db = new DboContext())
+                    bool nameAlready = false;
+                    var dbUser = userService.CreateUser(user.Id, model.Role);
+                    //using (var db = new DboContext())
+                    //{
+                    //var dbUser = db.Users.Add(new User
+                    //{
+                    //    AspNetUsersId = user.Id,
+                    //    Status = UserStatus.Active,
+                    //    Roles = db.Roles.Where(x => x.Name == model.Role).ToList(),
+                    //    Projects = db.Projects.Where(x => x.IsActive && model.Role == nameof(RoleType.Employee)).ToList()
+                    //});
+                    if (!string.IsNullOrEmpty(model.FirstName) && !string.IsNullOrEmpty(model.LastName))
                     {
-                        var dbUser = db.Users.Add(new User
-                        {
-                            AspNetUsersId = user.Id,
-                            FirstName = model.FirstName,
-                            LastName = model.LastName,
-                            Status = UserStatus.Active,
-                            Roles = db.Roles.Where(x => x.Name == model.Role).ToList(),
-                            Projects = db.Projects.Where(x => x.IsActive && model.Role == nameof(RoleType.Client)).ToList()
-                        });
-                        db.SaveChanges();
+                        userService.AddNames(dbUser, model.FirstName, model.LastName);
+                        //dbUser.FirstName = model.FirstName;
+                        //dbUser.LastName = model.LastName;
+                        nameAlready = true;
                     }
-                    var htmlBody = await RedirectToCompleteCreation(user);
+                    //    db.SaveChanges();
+                    //}
+                    var htmlBody = await RedirectToCompleteCreation(user, nameAlready);
                     return Ok($"User created and here is code for reset password: {htmlBody}");
+
                     //MAIL SENDING IS WORKING
-                    //await SendActivationMail(user);
+                    //await SendActivationMail(user, nameAlready);
                     //return RedirectToAction("CreateConfirmation");
                 }
+            }
+            else
+            {
+                var htmlBody = await RedirectToCompleteCreation(tryUser, false);
+                return Ok($"User created and here is code for reset password: {htmlBody}");
             }
             return Ok("Not succeeded");
         }
 
-        private async Task SendActivationMail(ApplicationUser user)
+        private async Task SendActivationMail(ApplicationUser user, bool nameAlready)
         {
-            string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id); 
+            string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
             var authority = new Uri(Request.RequestUri.GetLeftPart(UriPartial.Authority));
-            var path = new Uri(authority, $"Home/ResetPassword/?code={code}");
+            var path = new Uri(authority, $"Home/ResetPassword/?code={code}&nameAlready={nameAlready}");
             string body = @"<h4>Welcome to my system!</h4><p>To get started, please <a href='" + path.AbsoluteUri + "'>activate</a> your account.</p><p>The account must be activated within 24 hours from receving this mail.</p>";
             await UserManager.SendEmailAsync(user.Id, "Welcome to my system!", body);
         }
 
-        private async Task<string> RedirectToCompleteCreation(ApplicationUser user)
+        private async Task<string> RedirectToCompleteCreation(ApplicationUser user, bool nameAlready)
         {
             string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
             var authority = new Uri(Request.RequestUri.GetLeftPart(UriPartial.Authority));
-            var path = new Uri(authority, $"Home/ResetPassword/?code={code}");
+            var path = new Uri(authority, $"Home/ResetPassword/?code={code}&nameAlready={nameAlready}");
             string body = @"<h4>Welcome to my system!</h4><p>To get started, please <a href='" + path.AbsoluteUri + "'>activate</a> your account.</p><p>The account must be activated within 24 hours from receving this mail.</p>";
             return body;
         }

@@ -118,16 +118,17 @@ namespace DPSP_UI_LG.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        //[Required]
         [MaxLength(50)]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [Required]
+        //[Required]
         [MaxLength(50)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        [Required]
         public string Role { get; set; }
     }
 
@@ -138,8 +139,8 @@ namespace DPSP_UI_LG.Models
 
     public class EmailViewModel
     {
-        public Guid ProjectIds { get; set; }
         public string Email { get; set; }
+        public IList<Guid> ProjectIds { get; set; }
     }
 
     }

@@ -1,6 +1,8 @@
 ﻿using DPSP_API.Models;
+using DPSP_DAL;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -14,7 +16,7 @@ namespace DPSP_API.Controllers
         {
 
         }
-        
+
         public HomeController(ApplicationUserManager userManager)
         {
             UserManager = userManager;
@@ -35,7 +37,7 @@ namespace DPSP_API.Controllers
         public ActionResult Index()
         {
 
-        ViewBag.Title = "Home Page";
+            ViewBag.Title = "Home Page";
 
             return View();
         }
@@ -58,6 +60,7 @@ namespace DPSP_API.Controllers
                 var code = model.Code.Replace(" ", "+");
                 if (!string.IsNullOrWhiteSpace(model.Email))
                 {
+
                     var user = UserManager.FindByName(model.Email);
                     if (user == null)
                     {
@@ -65,7 +68,17 @@ namespace DPSP_API.Controllers
                         ViewBag.Error = string.Join("<br/>", error.Errors);
                         return View(model);
                     }
-
+                    if (model.addName != null)
+                    {
+                        using (var db = new DboContext())
+                        {
+                            var dbUser = db.Users.FirstOrDefault(x => x.AspNetUsersId == user.Id);
+                            dbUser.FirstName = model.addName.FirstName;
+                            dbUser.LastName = model.addName.LastName;
+                            db.SaveChanges();
+                        }
+                            
+                    }
                     if (!string.IsNullOrWhiteSpace(model.Password) && model.Password.Equals(model.ConfirmPassword))
                     {
                         var result = UserManager.ResetPassword(user.Id, code, model.Password);

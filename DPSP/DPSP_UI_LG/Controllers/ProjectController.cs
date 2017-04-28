@@ -18,6 +18,7 @@ namespace DPSP_UI_LG.Controllers
             string data = string.Empty;
             if (Helpers.Ident.IsLogged) data = $"userName={Helpers.Ident.Get().userName}" ?? string.Empty;
             //var filter = "$filter=Department eq 'Law'";
+            //var filter = "$select=Name";
             var filter = string.Empty;
             var url = $"http://localhost:63705/odata/Project?{data}&{filter}";
             var content = await Helpers.Request.ToApi(data, url);
@@ -59,19 +60,30 @@ namespace DPSP_UI_LG.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult GetProject(ListProjectViewModel model)
         {
-            var emailViewModel = model.ProjectViewModels.Where(x => x.ForShare).Select(x => new EmailViewModel()
+            var projects = model.ProjectViewModels.Where(x => x.ForShare);
+            var projectIds = new List<Guid>();
+            foreach(var item in projects)
             {
-                ProjectIds = x.ProjectId
-            });
-            return View("Share"/*, emailViewModel*/);
+                projectIds.Add(item.ProjectId);
+            }
+            var emailViewModel = new EmailViewModel()
+            {
+                ProjectIds = projectIds
+            };
+            return View("Share", emailViewModel);
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Share(EmailViewModel model)
+        public async Task<ActionResult> Share(EmailViewModel model)
         {
-            return View("Confirmation");
+            var jsonData = JsonConvert.SerializeObject(model);
+            var data = jsonData;
+            var url = $"http://localhost:63705/api/share/shareproject?{data}";
+            var content = await Helpers.Request.ToApi(data, url, Helpers.ApiRequesType.POST);
+
+            return Content(content);
         }
     }
 }

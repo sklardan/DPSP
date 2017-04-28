@@ -9,10 +9,10 @@
 
 @if (Ident.IsLogged && Model != null)
 {
-        @Html.AntiForgeryToken()
-            <div id="projects">
-                @Html.Partial("ProjectItem", Model)
-            </div>
+    @Html.AntiForgeryToken()
+    <div id="projects">
+        @Html.Partial("ProjectItem", Model)
+    </div>
 }
 else
 {

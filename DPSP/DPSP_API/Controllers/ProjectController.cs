@@ -1,4 +1,5 @@
-﻿using DPSP_BLL;
+﻿using DPSP_API.Models;
+using DPSP_BLL;
 using DPSP_DAL;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Data.OData;
@@ -15,6 +16,7 @@ namespace DPSP_API.Controllers
     The WebApiConfig class may require additional changes to add a route for this controller. Merge these statements into the Register method of the WebApiConfig class as applicable. Note that OData URLs are case sensitive.
     */
     [Authorize]
+    //[ODataRouting]
     public class ProjectController : ODataController
     {
         private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
@@ -52,6 +54,34 @@ namespace DPSP_API.Controllers
             //string json = Newtonsoft.Json.JsonConvert.SerializeObject(listOfProjects);
             return Ok(listOfProjects);
         }
+
+        //// POST: Api/odata/ShareProject
+        //[HttpPost]
+        ////[Route("({model})")]
+        //public IHttpActionResult Post(ODataQueryOptions<Project> queryOptions, EmailViewModel model)
+        //{
+        //    if(UserManager.Users.Any(x => x.Email == model.Email))
+        //    {
+        //        var aspUser = UserManager.Users.FirstOrDefault(x => x.Email == model.Email);
+        //        using(var db = new DboContext())
+        //        {
+        //            var userDb = db.Users.FirstOrDefault(x => x.AspNetUsersId == aspUser.Id);
+        //            foreach(var item in model.ProjectIds)
+        //            {
+        //                userDb.Projects.Add(db.Projects.FirstOrDefault(x => x.IsActive && x.Id == item));
+        //            }              
+        //        }
+        //        return Ok("Sharing sucessful.");
+        //    }
+        //    return Ok("Not completed.");
+        //}
+
+        ////[HttpPost]
+        ////[Route("({email})")]
+        //public IHttpActionResult Project(ODataQueryOptions<Project> queryOptions, string email, string projectIds)
+        //{
+        //    return Ok("Not completed.");
+        //}
 
         // GET: odata/Project(5)
         public IHttpActionResult GetProject([FromODataUri] System.Guid key, ODataQueryOptions<Project> queryOptions)

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using DPSP_DAL;
 
 namespace DPSP_API.Models
 {
@@ -101,15 +103,14 @@ namespace DPSP_API.Models
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
+
+        public bool nameAlready { get; set; }
+
+        public AddNameModel addName { get; set; }
     }
 
-    public class CreateUserBindingModel
+    public class AddNameModel
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
         [Required]
         [MaxLength(50)]
         [Display(Name = "First Name")]
@@ -120,6 +121,33 @@ namespace DPSP_API.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        public string Role { get; private set; } = nameof(RoleType.Client);
+    }
+
+    public class CreateUserBindingModel
+    {
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        //[Required]
+        [MaxLength(50)]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        //[Required]
+        [MaxLength(50)]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
         public string Role { get; set; }
+    }
+
+    public class EmailViewModel
+    {
+        public string Email { get; set; }
+        public IList<Guid> ProjectIds { get; set; }
     }
 }

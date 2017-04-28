@@ -22,40 +22,29 @@ namespace DPSP_BLL
         {
             var roleType = role.FirstOrDefault().Enum;
             IEnumerable<ProjectViewModel> projects;
+            projects = userProjects.Select(x => new ProjectViewModel()
+            {
+                ProjectId = x.Id,
+                Name = x.Name,
+                Department = x.Department,
+                Client = x.Client,
+                Manager = x.Manager,
+                Employees = x.Employees,
+                Introduction = x.Introduction,
+                Content = x.Content,
+                Conclusion = x.Conclusion,
+                OpenDate = x.OpenDate,
+                CloseDate = x.CloseDate
+            });
             switch (roleType)
             {
                 case RoleType.Employee:
-                    projects = userProjects.Select(x => new ProjectViewModel()
+                    foreach(var item in projects)
                     {
-                        ProjectId = x.Id,
-                        Name = x.Name,
-                        Department = x.Department,
-                        Client = x.Client,
-                        Manager = x.Manager,
-                        Employees = x.Employees,
-                        Introduction = x.Introduction,
-                        Content = x.Content,
-                        Conclusion = x.Conclusion,
-                        Budget = x.Budget,
-                        OpenDate = x.OpenDate,
-                        CloseDate = x.CloseDate
-                    });
+                        item.Budget = userProjects.FirstOrDefault(x => x.Id == item.ProjectId).Budget;
+                    }
                     break;
                 default:
-                    projects = userProjects.Select(x => new ProjectViewModel()
-                    {
-                        ProjectId = x.Id,
-                        Name = x.Name,
-                        Department = x.Department,
-                        Client = x.Client,
-                        Manager = x.Manager,
-                        Employees = x.Employees,
-                        Introduction = x.Introduction,
-                        Content = x.Content,
-                        Conclusion = x.Conclusion,
-                        OpenDate = x.OpenDate,
-                        CloseDate = x.CloseDate
-                    });
                     break;
             }
             //var listOfProjects =  new ListProjectViewModel()
