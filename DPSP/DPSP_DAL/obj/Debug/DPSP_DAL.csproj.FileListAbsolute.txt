@@ -58,3 +58,4 @@ C:\Users\dasklar\Source\Repos\DeloitteProjectSharingPlatform\DPSP\DPSP_DAL\obj\D
 C:\Users\dasklar\Source\Repos\DeloitteProjectSharingPlatform\DPSP\DPSP_DAL\bin\Debug\Microsoft.Practices.ServiceLocation.dll
 C:\Users\dasklar\Source\Repos\DeloitteProjectSharingPlatform\DPSP\DPSP_DAL\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
 C:\Users\dasklar\Source\Repos\DeloitteProjectSharingPlatform\DPSP\DPSP_DAL\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+C:\Users\dasklar\Source\Repos\DeloitteProjectSharingPlatform\DPSP\DPSP_DAL\obj\Debug\DPSP_DAL.Migrations.NotRequiredUserNames.resources

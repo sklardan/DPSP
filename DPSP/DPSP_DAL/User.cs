@@ -10,10 +10,10 @@ namespace DPSP_DAL
         [Index(IsUnique = true),MaxLength(SmallColumnLength)]
         public string AspNetUsersId { get; set; }
 
-        [Required(ErrorMessage = "Please add first name")]
+        //[Required(ErrorMessage = "Please add first name")]
         public string FirstName { get; set; }
 
-        [Required(ErrorMessage = "Please add last name")]
+        //[Required(ErrorMessage = "Please add last name")]
         public string LastName { get; set; }
 
         public UserStatus Status { get; set; }

@@ -45,7 +45,7 @@ namespace DPSP_UI_LG.Controllers
                 {
                     ProjectViewModels = project
                 };
-                if (comingOdata.Projects.Count == 0) project = null;
+                if (comingOdata.Projects.Count == 0) listOfProjects = null;
                 return View(listOfProjects);
             }
             catch (Exception ex)

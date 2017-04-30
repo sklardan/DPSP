@@ -1,4 +1,5 @@
 ﻿using DPSP_API.Models;
+using DPSP_BLL;
 using DPSP_DAL;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -42,13 +43,14 @@ namespace DPSP_API.Controllers
             return View();
         }
 
-        public ActionResult ResetPassword(string code)
+        public ActionResult ResetPassword(string code, bool nameAlready)
         {
-            //var model = new ResetPasswordViewModel
-            //{
-            //    Code = code
-            //};
-            return code == null ? View("Error") : View();
+            var model = new ResetPasswordViewModel
+            {
+                Code = code,
+                NameAlready = nameAlready
+            };
+            return code == null ? View("Error") : View(model);
         }
 
         [HttpPost]
@@ -68,13 +70,13 @@ namespace DPSP_API.Controllers
                         ViewBag.Error = string.Join("<br/>", error.Errors);
                         return View(model);
                     }
-                    if (model.addName != null)
+                    if (model.AddName != null)
                     {
                         using (var db = new DboContext())
                         {
                             var dbUser = db.Users.FirstOrDefault(x => x.AspNetUsersId == user.Id);
-                            dbUser.FirstName = model.addName.FirstName;
-                            dbUser.LastName = model.addName.LastName;
+                            dbUser.FirstName = model.AddName.FirstName;
+                            dbUser.LastName = model.AddName.LastName;
                             db.SaveChanges();
                         }
                             

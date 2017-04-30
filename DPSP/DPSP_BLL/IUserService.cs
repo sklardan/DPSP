@@ -13,5 +13,6 @@ namespace DPSP_BLL
         User CreateUser(string aspUserId, string role);
         User AddNames(User dbUser, string FirstName, string LastName);
         User AddProject(User dbUser, IList<Guid> projectIds);
+        User GetUser(string aspUserId);
     }
 }

@@ -104,9 +104,9 @@ namespace DPSP_API.Models
 
         public string Code { get; set; }
 
-        public bool nameAlready { get; set; }
+        public bool NameAlready { get; set; }
 
-        public AddNameModel addName { get; set; }
+        public AddNameModel AddName { get; set; }
     }
 
     public class AddNameModel
@@ -124,26 +124,26 @@ namespace DPSP_API.Models
         public string Role { get; private set; } = nameof(RoleType.Client);
     }
 
-    public class CreateUserBindingModel
-    {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+    //public class CreateUserBindingModel
+    //{
+    //    [Required]
+    //    [EmailAddress]
+    //    [Display(Name = "Email")]
+    //    public string Email { get; set; }
 
-        //[Required]
-        [MaxLength(50)]
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
+    //    //[Required]
+    //    [MaxLength(50)]
+    //    [Display(Name = "First Name")]
+    //    public string FirstName { get; set; }
 
-        //[Required]
-        [MaxLength(50)]
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }
+    //    //[Required]
+    //    [MaxLength(50)]
+    //    [Display(Name = "Last Name")]
+    //    public string LastName { get; set; }
 
-        [Required]
-        public string Role { get; set; }
-    }
+    //    [Required]
+    //    public string Role { get; set; }
+    //}
 
     public class EmailViewModel
     {

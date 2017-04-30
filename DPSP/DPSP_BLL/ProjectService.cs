@@ -18,7 +18,7 @@ namespace DPSP_BLL
             }
         }
 
-        public IEnumerable<ProjectViewModel> RetypeToProjectViewModel (IEnumerable<Project> userProjects,IEnumerable<Role> role)
+        public IEnumerable<ProjectViewModel> RetypeToProjectViewModel(IEnumerable<Project> userProjects, IEnumerable<Role> role)
         {
             var roleType = role.FirstOrDefault().Enum;
             IEnumerable<ProjectViewModel> projects;
@@ -35,11 +35,11 @@ namespace DPSP_BLL
                 Conclusion = x.Conclusion,
                 OpenDate = x.OpenDate,
                 CloseDate = x.CloseDate
-            });
+            }).ToList();
             switch (roleType)
-            {
+            {      
                 case RoleType.Employee:
-                    foreach(var item in projects)
+                    foreach (var item in projects)
                     {
                         item.Budget = userProjects.FirstOrDefault(x => x.Id == item.ProjectId).Budget;
                     }

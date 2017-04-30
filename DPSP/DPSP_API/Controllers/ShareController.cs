@@ -8,6 +8,9 @@ using DPSP_DAL;
 using System.Net.Http;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
+using DPSP_BLL.Models;
+using System;
 
 namespace DPSP_API.Controllers
 {
@@ -15,16 +18,18 @@ namespace DPSP_API.Controllers
     {
         private ApplicationUserManager _userManager;
         private IUserService userService;
+        private IAccountService accountService;
 
         public ShareController()
         {
 
         }
 
-        public ShareController(ApplicationUserManager userManager, IUserService userService)
+        public ShareController(/*ApplicationUserManager userManager,*/ IUserService userService, IAccountService accountService)
         {
-            UserManager = userManager;
+            //UserManager = userManager;
             this.userService = userService;
+            this.accountService = accountService;
         }
 
         public ApplicationUserManager UserManager
@@ -42,7 +47,7 @@ namespace DPSP_API.Controllers
         // POST: Api/Share/ShareProject
         [HttpPost]
         [Route("shareproject")]
-        public IHttpActionResult ShareProject(EmailViewModel model)
+        public async Task<IHttpActionResult> ShareProject(EmailViewModel model)
         {
             if (UserManager.Users.Any(x => x.Email == model.Email))
             {
@@ -64,11 +69,21 @@ namespace DPSP_API.Controllers
             else
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true };
-                var userDb = userService.CreateUser(user.Id, nameof(RoleType.Client));
-                userService.AddProject(userDb, model.ProjectIds);
-                RedirectToRoute("Account/Creation", new CreateUserBindingModel() { Email = model.Email, Role = nameof(RoleType.Client)});
-                return Ok("Send for creation with already shared your projects");
-            }
+                var result = await UserManager.CreateAsync(user); // Create without password.
+                if (result.Succeeded)
+                {
+                    var userDb = userService.CreateUser(user.Id, nameof(RoleType.Client));
+                    if (model.ProjectIds.Any())
+                    {
+                        userDb = userService.AddProject(userDb, model.ProjectIds);
+                    }
+                    //var newUrl = this.Url.Link("Default", new { Controller = "Account", Action = "Creation" });
+                    //var url = RedirectToRoute("api/Account/Creation", new CreateUserBindingModel() { Email = model.Email, Role = nameof(RoleType.Client)});
+                    //Request.CreateResponse(HttpStatusCode.OK, new { Success = true, RedirectUrl = newUrl });
+                    return Ok(await accountService.Creation((new CreateUserBindingModel() { Email = model.Email, Role = nameof(RoleType.Client) }), UserManager, new Uri(Request.RequestUri.GetLeftPart(UriPartial.Authority))));
+                }
+                return Ok("Making new user and sending him an email not succeed.");
+                }
             //return Ok("Not completed.");
         }
 

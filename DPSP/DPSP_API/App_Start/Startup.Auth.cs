@@ -1,5 +1,7 @@
 ﻿using DPSP_API.Models;
 using DPSP_API.Providers;
+using DPSP_BLL;
+using DPSP_BLL.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;

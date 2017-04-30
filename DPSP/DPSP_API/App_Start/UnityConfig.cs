@@ -5,6 +5,10 @@ using System.Web;
 using DPSP_BLL;
 using DPSP_API.Controllers;
 using Microsoft.Owin.Security;
+using DPSP_API.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using DPSP_BLL.Models;
 
 namespace DPSP_API
 {
@@ -41,9 +45,14 @@ namespace DPSP_API
 
         private static void RegisterBusinessServices(IUnityContainer container)
         {
+            
             container.RegisterType<IProjectService, ProjectService>();
             container.RegisterType<IRoleService, RoleService>();
-            //container.RegisterType<IUserService, UserService>();
+            container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>();
+            container.RegisterType<ApplicationUserManager>();
+            container.RegisterType<IAuthenticationManager>();
+            container.RegisterType<IUserService, UserService>();
+            container.RegisterType<IAccountService, AccountService>();
             //container.RegisterType<ApplicationUserManager>();
             //container.RegisterType<ISecureDataFormat<AuthenticationTicket>>();
         }

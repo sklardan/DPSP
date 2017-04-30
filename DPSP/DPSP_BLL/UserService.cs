@@ -10,7 +10,7 @@ namespace DPSP_BLL
         public User CreateUser(string aspUserId, string role)
         {
             using (var db = new DboContext())
-            {
+            {   
                 var dbUser = db.Users.Add(new User
                 {
                     AspNetUsersId = aspUserId,
@@ -30,19 +30,29 @@ namespace DPSP_BLL
                 dbUser.FirstName = FirstName;
                 dbUser.LastName = LastName;
                 db.SaveChanges();
+                return dbUser;
             }
-            return dbUser;
+            
         }
 
         public User AddProject(User dbUser, IList<Guid> projectIds)
         {
             using (var db = new DboContext())
             {
-                foreach(var item in projectIds)
+                foreach (var item in projectIds)
                 {
-                    dbUser.Projects.Add(db.Projects.FirstOrDefault(x => x.Id == item));
+                    db.Users.FirstOrDefault(x => x.Id == dbUser.Id).Projects.Add(db.Projects.FirstOrDefault(x => x.Id == item));
                 }
+                db.SaveChanges();
                 return dbUser;
+            }
+        }
+
+        public User GetUser(string aspUserId)
+        {
+            using(var db = new DboContext())
+            {
+                return(db.Users.FirstOrDefault(x => x.AspNetUsersId == aspUserId));
             }
         }
     }
