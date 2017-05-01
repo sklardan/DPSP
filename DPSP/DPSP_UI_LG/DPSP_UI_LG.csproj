@@ -89,6 +89,26 @@
       <HintPath>..\packages\Microsoft.Owin.3.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>packages\Unity.Mvc.4.0.1\lib\net45\Microsoft.Practices.Unity.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -158,6 +178,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -226,6 +250,9 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="App_Start\UnityResolver.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
@@ -244,19 +271,80 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ProjectService.cs" />
+    <Compile Include="Services\IProjectService.cs" />
+    <Compile Include="Services\IAccountService.cs" />
+    <Compile Include="Services\AccountService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font\deloitte-special-use-icon-font.svg" />
+    <Content Include="Content\font\deloitteiconfont.svg" />
+    <Content Include="Content\font\OpenSans-Bold-webfont.svg" />
+    <Content Include="Content\font\OpenSans-BoldItalic-webfont.svg" />
+    <Content Include="Content\font\OpenSans-ExtraBold-webfont.svg" />
+    <Content Include="Content\font\OpenSans-ExtraBoldItalic-webfont.svg" />
+    <Content Include="Content\font\OpenSans-Italic-webfont.svg" />
+    <Content Include="Content\font\OpenSans-Light-webfont.svg" />
+    <Content Include="Content\font\OpenSans-LightItalic-webfont.svg" />
+    <Content Include="Content\font\OpenSans-Regular-webfont.svg" />
+    <Content Include="Content\font\OpenSans-Semibold-webfont.svg" />
+    <Content Include="Content\font\OpenSans-SemiboldItalic-webfont.svg" />
+    <Content Include="Content\img\deloitte-logo.png" />
+    <Content Include="Content\styles\deloittedpsp.css" />
+    <Content Include="Content\styles\bootstrap.min.css" />
+    <Content Include="Content\styles\bootstrap.css" />
+    <Content Include="Content\styles\deloitte-special-use-icon-font.css" />
+    <Content Include="Content\styles\deloitteiconfont.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\font\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\styles\Site.css" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config" />
+    <Content Include="Content\font\deloitte-special-use-icon-font.eot" />
+    <Content Include="Content\font\deloitte-special-use-icon-font.otf" />
+    <Content Include="Content\font\deloitte-special-use-icon-font.ttf" />
+    <Content Include="Content\font\deloitte-special-use-icon-font.woff" />
+    <Content Include="Content\font\deloitte-special-use-icon-font.woff2" />
+    <Content Include="Content\font\deloitteiconfont.eot" />
+    <Content Include="Content\font\deloitteiconfont.otf" />
+    <Content Include="Content\font\deloitteiconfont.ttf" />
+    <Content Include="Content\font\deloitteiconfont.woff" />
+    <Content Include="Content\font\deloitteiconfont.woff2" />
+    <Content Include="Content\font\OpenSans-Italic-webfont.ttf" />
+    <Content Include="Content\font\OpenSans-Italic-webfont.woff" />
+    <Content Include="Content\font\OpenSans-Light-webfont.eot" />
+    <Content Include="Content\font\OpenSans-Light-webfont.ttf" />
+    <Content Include="Content\font\OpenSans-Light-webfont.woff" />
+    <Content Include="Content\font\OpenSans-LightItalic-webfont.eot" />
+    <Content Include="Content\font\OpenSans-LightItalic-webfont.ttf" />
+    <Content Include="Content\font\OpenSans-LightItalic-webfont.woff" />
+    <Content Include="Content\font\OpenSans-Regular-webfont.eot" />
+    <Content Include="Content\font\OpenSans-Regular-webfont.ttf" />
+    <Content Include="Content\font\OpenSans-Regular-webfont.woff" />
+    <Content Include="Content\font\OpenSans-Semibold-webfont.eot" />
+    <Content Include="Content\font\OpenSans-Semibold-webfont.ttf" />
+    <Content Include="Content\font\OpenSans-Semibold-webfont.woff" />
+    <Content Include="Content\font\OpenSans-SemiboldItalic-webfont.eot" />
+    <Content Include="Content\font\OpenSans-SemiboldItalic-webfont.ttf" />
+    <Content Include="Content\font\OpenSans-SemiboldItalic-webfont.woff" />
+    <Content Include="Content\font\OpenSans-Bold-webfont - Copy.eot" />
+    <Content Include="Content\font\OpenSans-Bold-webfont.eot" />
+    <Content Include="Content\font\OpenSans-Bold-webfont.ttf" />
+    <Content Include="Content\font\OpenSans-Bold-webfont.woff" />
+    <Content Include="Content\font\OpenSans-BoldItalic-webfont.eot" />
+    <Content Include="Content\font\OpenSans-BoldItalic-webfont.ttf" />
+    <Content Include="Content\font\OpenSans-BoldItalic-webfont.woff" />
+    <Content Include="Content\font\OpenSans-ExtraBold-webfont.eot" />
+    <Content Include="Content\font\OpenSans-ExtraBold-webfont.ttf" />
+    <Content Include="Content\font\OpenSans-ExtraBold-webfont.woff" />
+    <Content Include="Content\font\OpenSans-ExtraBoldItalic-webfont.eot" />
+    <Content Include="Content\font\OpenSans-ExtraBoldItalic-webfont.ttf" />
+    <Content Include="Content\font\OpenSans-ExtraBoldItalic-webfont.woff" />
+    <Content Include="Content\font\OpenSans-Italic-webfont.eot" />
     <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -281,7 +369,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -312,14 +399,20 @@
     <Content Include="Views\Project\Confirmation.cshtml" />
     <Content Include="Views\Account\ConfirmLogin.cshtml" />
     <Content Include="Views\Project\ProjectItem.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_TopMenu.cshtml" />
+    <Content Include="Views\Shared\_MobileTopMenu.cshtml" />
+    <Content Include="Views\Shared\_Footer.cshtml" />
+    <Content Include="Views\Shared\_LayoutTpm.cshtml" />
+    <Content Include="Views\Shared\_LayoutChanged.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\font\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\font\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\font\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />

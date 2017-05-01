@@ -34,23 +34,25 @@ namespace DPSP_API.Models
         public string ConfirmPassword { get; set; }
     }
 
-    public class RegisterBindingModel
-    {
-        [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+    //public class RegisterBindingModel
+    //{
+    //    [Required]
+    //    [Display(Name = "Email")]
+    //    public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
+    //    [Required]
+    //    [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+    //    [DataType(DataType.Password)]
+    //    [Display(Name = "Password")]
+    //    public string Password { get; set; }
 
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
-    }
+    //    [DataType(DataType.Password)]
+    //    [Display(Name = "Confirm password")]
+    //    [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+    //    public string ConfirmPassword { get; set; }
+
+    //    public AddNameModel AddName { get; set; }
+    //}
 
     public class RegisterExternalBindingModel
     {
@@ -84,70 +86,43 @@ namespace DPSP_API.Models
         public string ConfirmPassword { get; set; }
     }
 
-    public class ResetPasswordViewModel
-    {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
-
-        public string Code { get; set; }
-
-        public bool NameAlready { get; set; }
-
-        public AddNameModel AddName { get; set; }
-    }
-
-    public class AddNameModel
-    {
-        [Required]
-        [MaxLength(50)]
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
-
-        [Required]
-        [MaxLength(50)]
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }
-
-        public string Role { get; private set; } = nameof(RoleType.Client);
-    }
-
-    //public class CreateUserBindingModel
+    //public class ResetPasswordViewModel
     //{
     //    [Required]
     //    [EmailAddress]
     //    [Display(Name = "Email")]
     //    public string Email { get; set; }
 
-    //    //[Required]
+    //    [Required]
+    //    [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+    //    [DataType(DataType.Password)]
+    //    [Display(Name = "Password")]
+    //    public string Password { get; set; }
+
+    //    [DataType(DataType.Password)]
+    //    [Display(Name = "Confirm password")]
+    //    [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+    //    public string ConfirmPassword { get; set; }
+
+    //    public string Code { get; set; }
+
+    //    public bool NameAlready { get; set; }
+
+    //    public AddNameModel AddName { get; set; }
+    //}
+
+    //public class AddNameModel
+    //{
+    //    [Required]
     //    [MaxLength(50)]
     //    [Display(Name = "First Name")]
     //    public string FirstName { get; set; }
 
-    //    //[Required]
+    //    [Required]
     //    [MaxLength(50)]
     //    [Display(Name = "Last Name")]
     //    public string LastName { get; set; }
 
-    //    [Required]
-    //    public string Role { get; set; }
+    //    public string Role { get; private set; } = nameof(RoleType.Client);
     //}
-
-    public class EmailViewModel
-    {
-        public string Email { get; set; }
-        public IList<Guid> ProjectIds { get; set; }
-    }
 }

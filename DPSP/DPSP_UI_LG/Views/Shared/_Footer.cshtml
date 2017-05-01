@@ -1,0 +1,20 @@
+﻿<div class="container-fluid">
+    <footer class="small">
+        <div class="row">
+            <div class="col-xs-6">
+                <p>
+                    &copy; @DateTime.Now.Year Deloitte Central Europe <br />
+                    Version: @ViewContext.Controller.GetType().Assembly.GetName().Version.ToString()
+                </p>
+            </div>
+            <div class="col-xs-6">
+                <p class="pull-right">
+                    Designed &amp; Developed by Deloitte Digital CZ
+                </p>
+            </div>
+        </div>
+    </footer>
+    @*<div id="no-connection" class="hidden">
+        @Html.Partial("_NoConnection")
+    </div>*@
+</div>

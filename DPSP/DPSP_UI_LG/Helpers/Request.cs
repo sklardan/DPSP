@@ -22,7 +22,6 @@ namespace DPSP_UI_LG.Helpers
         {
             using (var client = new HttpClient())
             {
-
                 if (Helpers.Ident.IsLogged) client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Helpers.Ident.Get().access_token);
                 var content = new StringContent(string.Empty);
                 if(!string.IsNullOrWhiteSpace(data)) content = new StringContent(data, Encoding.UTF8, "application/json");/*x-www-form-urlencoded*/

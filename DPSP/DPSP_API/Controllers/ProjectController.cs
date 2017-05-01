@@ -22,14 +22,12 @@ namespace DPSP_API.Controllers
         private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
 
         private IProjectService projectService;
-        private IRoleService roleService;
 
         private ApplicationUserManager _userManager;
 
-        public ProjectController(IProjectService projectService, IRoleService roleService)
+        public ProjectController(IProjectService projectService)
         {
             this.projectService = projectService;
-            this.roleService = roleService;
         }
 
         public ApplicationUserManager UserManager
@@ -48,11 +46,7 @@ namespace DPSP_API.Controllers
         [EnableQuery]
         public IHttpActionResult GetProject(ODataQueryOptions<Project> queryOptions,string userName)
         {
-            var aspUser = UserManager.Users.FirstOrDefault(x => x.UserName == userName);
-            var userProjects = projectService.GetUserProjects(aspUser.Id);
-            var listOfProjects = projectService.RetypeToProjectViewModel(userProjects, roleService.GetRole(aspUser.Id));
-            //string json = Newtonsoft.Json.JsonConvert.SerializeObject(listOfProjects);
-            return Ok(listOfProjects);
+            return Ok(projectService.GetProjectViewModels(UserManager,userName));
         }
 
         //// POST: Api/odata/ShareProject
@@ -60,27 +54,6 @@ namespace DPSP_API.Controllers
         ////[Route("({model})")]
         //public IHttpActionResult Post(ODataQueryOptions<Project> queryOptions, EmailViewModel model)
         //{
-        //    if(UserManager.Users.Any(x => x.Email == model.Email))
-        //    {
-        //        var aspUser = UserManager.Users.FirstOrDefault(x => x.Email == model.Email);
-        //        using(var db = new DboContext())
-        //        {
-        //            var userDb = db.Users.FirstOrDefault(x => x.AspNetUsersId == aspUser.Id);
-        //            foreach(var item in model.ProjectIds)
-        //            {
-        //                userDb.Projects.Add(db.Projects.FirstOrDefault(x => x.IsActive && x.Id == item));
-        //            }              
-        //        }
-        //        return Ok("Sharing sucessful.");
-        //    }
-        //    return Ok("Not completed.");
-        //}
-
-        ////[HttpPost]
-        ////[Route("({email})")]
-        //public IHttpActionResult Project(ODataQueryOptions<Project> queryOptions, string email, string projectIds)
-        //{
-        //    return Ok("Not completed.");
         //}
 
         // GET: odata/Project(5)

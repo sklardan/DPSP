@@ -1,4 +1,5 @@
 ﻿using DPSP_UI_LG.Models;
+using DPSP_UI_LG.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -18,15 +19,17 @@ namespace DPSP_UI_LG.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private IAccountService accountService;
 
-        public AccountController()
-        {
-        }
+        //public AccountController()
+        //{
+        //}
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public AccountController(/*ApplicationUserManager userManager, ApplicationSignInManager signInManager*/IAccountService accountService)
         {
-            UserManager = userManager;
-            SignInManager = signInManager;
+            //UserManager = userManager;
+            //SignInManager = signInManager;
+            this.accountService = accountService;
         }
 
         public ApplicationSignInManager SignInManager
@@ -58,6 +61,7 @@ namespace DPSP_UI_LG.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            if (Helpers.Ident.IsLogged) return View("Error");
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -69,25 +73,10 @@ namespace DPSP_UI_LG.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
-            var url = Path.Combine(Configuration.DPSP_API_SERVER, "Token");
-            var data = $"grant_type=password&username={model.Email}&password={model.Password}";
-            var content = await Helpers.Request.ToApi(data, url, Helpers.ApiRequesType.POST);
-            JavaScriptSerializer oJS = new JavaScriptSerializer();
-            var tokenModel = new TokenModel();
-            try
-            {
-                tokenModel = oJS.Deserialize<TokenModel>(content);
-            }
-            catch (Exception ex)
-            {
-                return View("Error");
-                    //Content($"{ex.Message} Response from server API: '{content}'");
-            }
-            Helpers.Ident.Set(tokenModel);
-            return View("ConfirmLogin");
+            return View(await accountService.Login(model, returnUrl));
         }
 
-        //
+        // NOT USED
         // GET: /Account/VerifyCode
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
@@ -100,7 +89,7 @@ namespace DPSP_UI_LG.Controllers
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
+        // NOT USED
         // POST: /Account/VerifyCode
         [HttpPost]
         [AllowAnonymous]
@@ -145,10 +134,7 @@ namespace DPSP_UI_LG.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            var url = Path.Combine(Configuration.DPSP_API_SERVER, "api/Account/Register");
-            var data = $"Email={model.Email}&Password={model.Password}&ConfirmPassword={model.ConfirmPassword}";
-            var content = await Helpers.Request.ToApi(data, url, Helpers.ApiRequesType.POST);
-            return Content(content.ToString());
+            return Content(await accountService.Register(model));
         }
 
         //
@@ -201,7 +187,7 @@ namespace DPSP_UI_LG.Controllers
             return View(model);
         }
 
-        //
+        // 
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
@@ -224,10 +210,7 @@ namespace DPSP_UI_LG.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            var url = Path.Combine(Configuration.DPSP_API_SERVER, "api/Account/ResetPassword");
-            var data = $"Email={model.Email}&Password={model.Password}&ConfirmPassword={model.ConfirmPassword}&Code={model.Code}";
-            var content = await Helpers.Request.ToApi(data, url, Helpers.ApiRequesType.POST);
-            return Content(content.ToString());
+            return Content(await accountService.ResetPassword(model));
         }
 
         //
@@ -238,7 +221,7 @@ namespace DPSP_UI_LG.Controllers
             return View();
         }
 
-        //
+        // NOT USED
         // POST: /Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
@@ -249,7 +232,7 @@ namespace DPSP_UI_LG.Controllers
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
-        //
+        // NOT USED
         // GET: /Account/SendCode
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
@@ -264,7 +247,7 @@ namespace DPSP_UI_LG.Controllers
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
+        // NOT USED
         // POST: /Account/SendCode
         [HttpPost]
         [AllowAnonymous]
@@ -284,7 +267,7 @@ namespace DPSP_UI_LG.Controllers
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
 
-        //
+        // NOT USED
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
@@ -314,7 +297,7 @@ namespace DPSP_UI_LG.Controllers
             }
         }
 
-        //
+        // NOT USED
         // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
         [AllowAnonymous]
@@ -358,9 +341,7 @@ namespace DPSP_UI_LG.Controllers
         [AllowAnonymous]
         public ActionResult LogOff()
         {
-            var url = Path.Combine(Configuration.DPSP_API_SERVER,"api/Account/Logout");
-            var content = Helpers.Request.ToApi(null, url, Helpers.ApiRequesType.POST);
-            Helpers.Ident.Clear();
+            accountService.LogOff();
             return RedirectToAction("Index", "Home");
         }
 
@@ -405,11 +386,7 @@ namespace DPSP_UI_LG.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CreateUserModel model)
         {
-            var jsonData = JsonConvert.SerializeObject(model);
-            var url = Path.Combine(Configuration.DPSP_API_SERVER, "api/Account/Creation");
-            var data = $"Email={model.Email}&FirstName={model.FirstName}&LastName={model.LastName}&Role={model.Role}";
-            var content = await Helpers.Request.ToApi(jsonData, url, Helpers.ApiRequesType.POST);
-            return Content(content.ToString());
+            return Content(await accountService.Create(model));
         }
 
         #region Helpers

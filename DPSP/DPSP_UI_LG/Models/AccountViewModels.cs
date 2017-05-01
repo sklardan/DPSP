@@ -80,6 +80,8 @@ namespace DPSP_UI_LG.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public AddNameModel AddName { get; set; }
     }
 
     public class ResetPasswordViewModel
@@ -143,4 +145,19 @@ namespace DPSP_UI_LG.Models
         public IList<Guid> ProjectIds { get; set; }
     }
 
+    public class AddNameModel
+    {
+        [Required]
+        [MaxLength(50)]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        //public string Role { get; private set; } = nameof(RoleType.Client);
     }
+
+}

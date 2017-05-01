@@ -3,20 +3,20 @@
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
-
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + Ident.Get().userName + "!", "Index", "Home", routeValues: null, htmlAttributes: new { title = "Home" })
-        </li>
-        <li>@Html.ActionLink("Log off","LogOff","Account")</li>
-    </ul>
+        @Html.AntiForgeryToken()
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink("Hello " + Ident.Get().userName + "!", "Index", "Home", routeValues: null, htmlAttributes: new { title = "Home" })
+            </li>
+            <li>@Html.ActionLink("Create", "Create", "Account", routeValues: null, htmlAttributes: new { id = "createLink" })</li>
+            <li>@Html.ActionLink("Log off", "LogOff", "Account")</li>
+        </ul>
     }
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Create", "Create", "Account", routeValues: null, htmlAttributes: new { id = "createLink" })</li>
+        @*<li>@Html.ActionLink("Create", "Create", "Account", routeValues: null, htmlAttributes: new { id = "createLink" })</li>*@
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>

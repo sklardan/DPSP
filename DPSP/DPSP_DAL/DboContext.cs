@@ -17,7 +17,6 @@ namespace DPSP_DAL
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-
             //modelBuilder.Entity<User>()
             //            .HasMany<Project>(s => s.Projects)
             //            .WithMany(c => c.Users)

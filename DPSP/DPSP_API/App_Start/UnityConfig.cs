@@ -44,17 +44,12 @@ namespace DPSP_API
         #endregion
 
         private static void RegisterBusinessServices(IUnityContainer container)
-        {
-            
+        { 
             container.RegisterType<IProjectService, ProjectService>();
             container.RegisterType<IRoleService, RoleService>();
-            container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>();
-            container.RegisterType<ApplicationUserManager>();
-            container.RegisterType<IAuthenticationManager>();
             container.RegisterType<IUserService, UserService>();
             container.RegisterType<IAccountService, AccountService>();
-            //container.RegisterType<ApplicationUserManager>();
-            //container.RegisterType<ISecureDataFormat<AuthenticationTicket>>();
+            container.RegisterType<IShareService, ShareService>();
         }
 
 

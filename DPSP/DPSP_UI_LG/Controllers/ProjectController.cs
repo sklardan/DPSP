@@ -1,4 +1,5 @@
 ﻿using DPSP_UI_LG.Models;
+using DPSP_UI_LG.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,49 +11,20 @@ namespace DPSP_UI_LG.Controllers
 {
     public class ProjectController : Controller
     {
+        private IProjectService projectService;
+
+        public ProjectController(IProjectService projectService)
+        {
+            this.projectService = projectService;
+        }
+
         //
         // GET: /Project/GetProject
         [AllowAnonymous]
         public async Task<ActionResult> GetProject()
         {
-            string data = string.Empty;
-            if (Helpers.Ident.IsLogged) data = $"userName={Helpers.Ident.Get().userName}" ?? string.Empty;
-            //var filter = "$filter=Department eq 'Law'";
-            //var filter = "$select=Name";
-            var filter = string.Empty;
-            var url = $"http://localhost:63705/odata/Project?{data}&{filter}";
-            var content = await Helpers.Request.ToApi(data, url);
-            try
-            {
-                var comingOdata = JsonConvert.DeserializeObject<ODataProject>(content);
-                var project = comingOdata.Projects.Select(x => new ProjectViewModel()
-                {
-                    ProjectId = x.ProjectId,
-                    Name = x.Name,
-                    Department = x.Department,
-                    Client = x.Client,
-                    Manager = x.Manager,
-                    Employees = x.Employees,
-                    Introduction = x.Introduction,
-                    Content = x.Content,
-                    Conclusion = x.Conclusion,
-                    Budget = x.Budget,
-                    OpenDate = x.OpenDate,
-                    CloseDate = x.CloseDate,
-                    ForShare = x.ForShare
-                }).ToList();
-                var listOfProjects = new ListProjectViewModel()
-                {
-                    ProjectViewModels = project
-                };
-                if (comingOdata.Projects.Count == 0) listOfProjects = null;
-                return View(listOfProjects);
-            }
-            catch (Exception ex)
-            {
-                return View("Error");
-                    //Content($"{ex.Message} Response from server API: '{content}'");
-            }
+            var projects = await projectService.GetProject();
+            return (projects == null) ? View("Error") : View(projects);
         }
 
         [HttpPost]
@@ -78,12 +50,13 @@ namespace DPSP_UI_LG.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Share(EmailViewModel model)
         {
-            var jsonData = JsonConvert.SerializeObject(model);
-            var data = jsonData;
-            var url = $"http://localhost:63705/api/share/shareproject?{data}";
-            var content = await Helpers.Request.ToApi(data, url, Helpers.ApiRequesType.POST);
+            return Content(await projectService.Share(model));
+            //var jsonData = JsonConvert.SerializeObject(model);
+            //var data = jsonData;
+            //var url = $"http://localhost:63705/api/share/shareproject?{data}";
+            //var content = await Helpers.Request.ToApi(data, url, Helpers.ApiRequesType.POST);
 
-            return Content(content);
+            //return Content(content);
         }
     }
 }

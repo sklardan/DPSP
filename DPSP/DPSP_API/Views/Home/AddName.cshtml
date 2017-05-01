@@ -1,6 +1,4 @@
-﻿@model DPSP_API.Models.ResetPasswordViewModel
-@*@using (Html.BeginForm("ResetPassword", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{*@
+﻿@*@model DPSP_API.Models.ResetPasswordViewModel
     @Html.AntiForgeryToken()
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
@@ -17,8 +15,6 @@
                 @Html.TextBoxFor(m => m.AddName.LastName, new { @class = "form-control" })
             </div>
         </div>
-@*}*@
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
+}*@

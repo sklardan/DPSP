@@ -23,13 +23,22 @@ namespace DPSP_UI_LG
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Content/styles/css").Include(
+                      "~/Content/styles/bootstrap.css",
+                      "~/Content/styles/deloittedpsp.css",
+                      "~/Content/styles/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                       "~/Scripts/knockout-{version}.js",
                       "~/Scripts/app.js"));
+
+            //bundles.Add(new StyleBundle("~/bundles/css").Include(
+            //             "~/Content/styles/bootstrap.css",
+            //             "~/Content/styles/site.css",
+            //"~/Content/styles/deloitteiconfont.css",
+            //   "~/Content/styles/deloitte-special-use-icon-font.css",
+            //        "~/Content/styles/animation.css",
+            //         "~/Content/styles/site.css"));
         }
     }
 }

@@ -35,11 +35,8 @@ namespace DPSP_API.Controllers
         {
         }
 
-        public AccountController(/*ApplicationUserManager userManager,*/
-           /* ISecureDataFormat<AuthenticationTicket> accessTokenFormat,*/ IUserService userService, IAccountService accountService)
+        public AccountController(IUserService userService, IAccountService accountService)
         {
-            //UserManager = userManager;
-            //AccessTokenFormat = accessTokenFormat;
             this.userService = userService;
             this.accountService = accountService;
         }
@@ -129,41 +126,6 @@ namespace DPSP_API.Controllers
                 ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
             };
         }
-
-        //[HttpPost]
-        //[System.Web.Mvc.ValidateAntiForgeryToken]
-        //public System.Web.Mvc.ActionResult ResetPassword(ResetPasswordViewModel model)
-        //{
-        //    if (model != null)
-        //    {
-        //        var code = model.Code.Replace(" ", "+");
-        //        if (!string.IsNullOrWhiteSpace(model.Email))
-        //        {
-        //            var user = UserManager.FindByName(model.Email);
-        //            if (user == null)
-        //            {
-        //                var error = new IdentityResult("Invalid token.");
-        //                ViewBag.Error = string.Join("<br/>", error.Errors);
-        //                return View(model);
-        //            }
-
-        //            if (!string.IsNullOrWhiteSpace(model.Password) && model.Password.Equals(model.ConfirmPassword))
-        //            {
-        //                var result = UserManager.ResetPassword(user.Id, code, model.Password);
-        //                if (result.Succeeded)
-        //                {
-        //                    return RedirectToAction("NativeAppsPage");
-        //                }
-        //                ViewBag.Error = string.Join("<br/>", result.Errors);
-        //            }
-        //        }
-        //        return View(model);
-        //    }
-        //    else
-        //    {
-        //        return View();
-        //    }
-        //}
 
         // POST api/Account/ChangePassword
         [Route("ChangePassword")]
@@ -378,17 +340,7 @@ namespace DPSP_API.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
+            return Ok(await accountService.Register(model, UserManager));
         }
 
         // POST api/Account/RegisterExternal
@@ -442,47 +394,6 @@ namespace DPSP_API.Controllers
         public async Task<IHttpActionResult> Creation(CreateUserBindingModel model)
         {
             return Ok(await accountService.Creation(model, UserManager,new Uri(Request.RequestUri.GetLeftPart(UriPartial.Authority))));
-            //var tryUser = UserManager.FindByEmail(model.Email);
-            //if (tryUser == null)
-            //{
-            //    var user = new ApplicationUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true };
-            //    var result = await UserManager.CreateAsync(user); // Create without password.
-            //    if (result.Succeeded)
-            //    {
-            //        bool nameAlready = false;
-            //        var dbUser = userService.CreateUser(user.Id, model.Role);
-            //        //using (var db = new DboContext())
-            //        //{
-            //        //var dbUser = db.Users.Add(new User
-            //        //{
-            //        //    AspNetUsersId = user.Id,
-            //        //    Status = UserStatus.Active,
-            //        //    Roles = db.Roles.Where(x => x.Name == model.Role).ToList(),
-            //        //    Projects = db.Projects.Where(x => x.IsActive && model.Role == nameof(RoleType.Employee)).ToList()
-            //        //});
-            //        if (!string.IsNullOrEmpty(model.FirstName) && !string.IsNullOrEmpty(model.LastName))
-            //        {
-            //            userService.AddNames(dbUser, model.FirstName, model.LastName);
-            //            //dbUser.FirstName = model.FirstName;
-            //            //dbUser.LastName = model.LastName;
-            //            nameAlready = true;
-            //        }
-            //        //    db.SaveChanges();
-            //        //}
-            //        var htmlBody = await RedirectToCompleteCreation(user, nameAlready);
-            //        return Ok($"User created and here is code for reset password: {htmlBody}");
-
-            //        //MAIL SENDING IS WORKING
-            //        //await SendActivationMail(user, NameAlready);
-            //        //return RedirectToAction("CreateConfirmation");
-            //    }
-            //}
-            //else
-            //{
-            //    var htmlBody = await RedirectToCompleteCreation(tryUser, false);
-            //    return Ok($"User created and here is code for reset password: {htmlBody}");
-            //}
-            //return Ok("Not succeeded");
         }
 
         private async Task SendActivationMail(ApplicationUser user, bool nameAlready)

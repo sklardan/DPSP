@@ -7,7 +7,6 @@ namespace DPSP_DAL
 {
     public class Project : BasicEntity
     {
-
         public string Name { get; set; }
 
         public Department Department { get; set; }

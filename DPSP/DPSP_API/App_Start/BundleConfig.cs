@@ -24,6 +24,7 @@ namespace DPSP_API
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/deloittedpsp.css",
                       "~/Content/site.css"));
 
         }
