@@ -80,7 +80,7 @@ namespace DPSP_API.Controllers
 
         // POST api/Account/Logout
         //[HttpPost]
-        [Route("Logout")]
+        [Route(nameof(Logout))]
         public IHttpActionResult Logout()
         {
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
@@ -128,7 +128,7 @@ namespace DPSP_API.Controllers
         }
 
         // POST api/Account/ChangePassword
-        [Route("ChangePassword")]
+        [Route(nameof(ChangePassword))]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -148,7 +148,7 @@ namespace DPSP_API.Controllers
         }
 
         // POST api/Account/SetPassword
-        [Route("SetPassword")]
+        [Route(nameof(SetPassword))]
         public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -167,7 +167,7 @@ namespace DPSP_API.Controllers
         }
 
         // POST api/Account/AddExternalLogin
-        [Route("AddExternalLogin")]
+        [Route(nameof(AddExternalLogin))]
         public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -205,7 +205,7 @@ namespace DPSP_API.Controllers
         }
 
         // POST api/Account/RemoveLogin
-        [Route("RemoveLogin")]
+        [Route(nameof(RemoveLogin))]
         public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -333,7 +333,7 @@ namespace DPSP_API.Controllers
 
         // POST api/Account/Register
         [AllowAnonymous]
-        [Route("Register")]
+        [Route(nameof(Register))]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -346,7 +346,7 @@ namespace DPSP_API.Controllers
         // POST api/Account/RegisterExternal
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
-        [Route("RegisterExternal")]
+        [Route(nameof(RegisterExternal))]
         public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -390,7 +390,7 @@ namespace DPSP_API.Controllers
         [HttpPost]
         [AllowAnonymous]
         //[ValidateAntiForgeryToken]
-        [Route("Creation")]
+        [Route(nameof(Creation))]
         public async Task<IHttpActionResult> Creation(CreateUserBindingModel model)
         {
             return Ok(await accountService.Creation(model, UserManager,new Uri(Request.RequestUri.GetLeftPart(UriPartial.Authority))));

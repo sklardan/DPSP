@@ -40,7 +40,7 @@ namespace DPSP_API.Controllers
 
         // POST: Api/Share/ShareProject
         [HttpPost]
-        [Route("shareproject")]
+        [Route(nameof(ShareProject))]
         public async Task<IHttpActionResult> ShareProject(EmailViewModel model)
         {
             return Ok(await shareService.ShareProject(model, UserManager, new Uri(Request.RequestUri.GetLeftPart(UriPartial.Authority))));

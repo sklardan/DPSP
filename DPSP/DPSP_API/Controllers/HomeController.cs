@@ -66,46 +66,6 @@ namespace DPSP_API.Controllers
             if (!string.IsNullOrWhiteSpace(serviceModel.RedirectToAction.RedirectValue)) return RedirectToAction(serviceModel.RedirectToAction.RedirectValue);
             if(!string.IsNullOrWhiteSpace(serviceModel.Error.ErrorValue)) ViewBag.Error = serviceModel.Error.ErrorValue;
             return View(serviceModel);
-
-            //    if (model != null)
-            //    {
-            //        var code = model.Code.Replace(" ", "+");
-            //        if (!string.IsNullOrWhiteSpace(model.Email))
-            //        {
-
-            //            var user = UserManager.FindByName(model.Email);
-            //            if (user == null)
-            //            {
-            //                var error = new IdentityResult("Invalid token.");
-            //                ViewBag.Error = string.Join("<br/>", error.Errors);
-            //                return View(model);
-            //            }
-            //            if (model.AddName != null)
-            //            {
-            //                using (var db = new DboContext())
-            //                {
-            //                    var dbUser = db.Users.FirstOrDefault(x => x.AspNetUsersId == user.Id);
-            //                    dbUser.FirstName = model.AddName.FirstName;
-            //                    dbUser.LastName = model.AddName.LastName;
-            //                    db.SaveChanges();
-            //                }
-            //            }
-            //            if (!string.IsNullOrWhiteSpace(model.Password) && model.Password.Equals(model.ConfirmPassword))
-            //            {
-            //                var result = UserManager.ResetPassword(user.Id, code, model.Password);
-            //                if (result.Succeeded)
-            //                {
-            //                    return RedirectToAction("NativeAppsPage");
-            //                }
-            //                ViewBag.Error = string.Join("<br/>", result.Errors);
-            //            }
-            //        }
-            //        return View(model);
-            //    }
-            //    else
-            //    {
-            //        return View();
-            //    }
         }
 
         public ActionResult NativeAppsPage()

@@ -400,11 +400,7 @@
     <Content Include="Views\Account\ConfirmLogin.cshtml" />
     <Content Include="Views\Project\ProjectItem.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\_TopMenu.cshtml" />
-    <Content Include="Views\Shared\_MobileTopMenu.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
-    <Content Include="Views\Shared\_LayoutTpm.cshtml" />
-    <Content Include="Views\Shared\_LayoutChanged.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
