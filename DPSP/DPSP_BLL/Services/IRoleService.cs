@@ -10,6 +10,11 @@ namespace DPSP_BLL
 {
     public interface IRoleService
     {
+        /// <summary>
+        /// GetRole returns user's role.
+        /// </summary>
+        /// <param name="aspUserId">String aspUserId</param>
+        /// <returns>Returns roles from user.</returns>
         IEnumerable<Role> GetRole(string aspUserId);
     }
 }

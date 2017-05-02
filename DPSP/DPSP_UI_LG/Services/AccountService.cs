@@ -13,11 +13,6 @@ namespace DPSP_UI_LG.Services
 {
     public class AccountService : IAccountService
     {
-        public AccountService()
-        {
-
-        }
-
         public async Task<string> Create(CreateUserModel model)
         {
             var jsonData = JsonConvert.SerializeObject(model);

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -10,20 +11,17 @@ namespace DPSP_UI_LG.Services
 {
     public class ProjectService : IProjectService
     {
-        public ProjectService()
-        {
-
-        }
-
         public async Task<ListProjectViewModel> GetProject()
         {
             string data = string.Empty;
             if (Helpers.Ident.IsLogged) data = $"userName={Helpers.Ident.Get().userName}" ?? string.Empty;
+            string jsonData = string.Empty;
+            if (!string.IsNullOrWhiteSpace(data)) jsonData = JsonConvert.SerializeObject(data);
             //var filter = "$filter=Department eq 'Law'";
             //var filter = "$select=Name";
             var filter = string.Empty;
-            var url = $"http://localhost:63705/odata/Project?{data}&{filter}";
-            var content = await Helpers.Request.ToApi(data, url);
+            var url = Path.Combine(Configuration.DPSP_API_SERVER, $"odata/Project?{data}&{filter}");
+            var content = await Helpers.Request.ToApi(jsonData, url);
             try
             {
                 var comingOdata = JsonConvert.DeserializeObject<ODataProject>(content);
@@ -61,7 +59,7 @@ namespace DPSP_UI_LG.Services
         {
             var jsonData = JsonConvert.SerializeObject(model);
             //var data = jsonData;
-            var url = $"http://localhost:63705/api/share/shareproject"; //?{jsonData}
+            var url = Path.Combine(Configuration.DPSP_API_SERVER, $"api/share/shareproject");
             var content = await Helpers.Request.ToApi(jsonData, url, Helpers.ApiRequesType.POST);
 
             return content;
