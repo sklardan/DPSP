@@ -50,6 +50,7 @@ namespace DPSP_API
             container.RegisterType<IUserService, UserService>();
             container.RegisterType<IAccountService, AccountService>();
             container.RegisterType<IShareService, ShareService>();
+            //container.RegisterType<ApplicationUserManager>();
         }
 
 

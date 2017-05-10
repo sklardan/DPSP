@@ -23,6 +23,7 @@ namespace DPSP_DAL
 
         public string Conclusion { get; set; }
 
+        [BindableType(IsBindable = )]
         public string Budget { get; set; }
 
         public DateTime OpenDate { get; set; }

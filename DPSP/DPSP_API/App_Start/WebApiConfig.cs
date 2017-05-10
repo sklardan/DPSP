@@ -38,8 +38,9 @@ namespace DPSP_API
             );
 
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
+            //posibility to ignore for example name in method GetProject
+            //builder.EntitySet<ProjectViewModel>("GetProject").EntityType.Ignore(x => x.Name);
             builder.EntitySet<Project>(typeof(Project).Name);
-            builder.EntitySet<ListProjectViewModel>(typeof(ListProjectViewModel).Name);
             builder.EntitySet<ProjectViewModel>(typeof(ProjectViewModel).Name);
             builder.EntitySet<User>(typeof(User).Name);
             builder.EntitySet<Role>(typeof(Role).Name);

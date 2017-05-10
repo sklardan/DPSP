@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPSP_API", "DPSP_API\DPSP_A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPSP_API.Tests", "DPSP_API.Tests\DPSP_API.Tests.csproj", "{5543FA39-46AB-46A5-9DAD-8B73681D06C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPSP_BLL.Tests", "DPSP_BLL.Tests\DPSP_BLL.Tests.csproj", "{39286339-0898-4A61-B121-D9873D3F4AA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{5543FA39-46AB-46A5-9DAD-8B73681D06C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5543FA39-46AB-46A5-9DAD-8B73681D06C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5543FA39-46AB-46A5-9DAD-8B73681D06C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39286339-0898-4A61-B121-D9873D3F4AA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39286339-0898-4A61-B121-D9873D3F4AA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39286339-0898-4A61-B121-D9873D3F4AA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39286339-0898-4A61-B121-D9873D3F4AA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

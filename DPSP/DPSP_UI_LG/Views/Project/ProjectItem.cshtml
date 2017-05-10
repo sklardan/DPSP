@@ -9,54 +9,58 @@
             <div class="col-sm-12">
                 <hr />
             </div>
-            <div class="project">
+            <div class="panel panel-default">
                 @Html.HiddenFor(x => Model.ProjectViewModels[i].ProjectId)
-                <div class="col-md-12 pull-left">
-                    <h4>PROJECT - @Model.ProjectViewModels[i].Name</h4>
-                    @Html.HiddenFor(x => @Model.ProjectViewModels[i].Name)
+                <div class="panel-heading">
+                    <div class="col-md-12">
+                        <h4 class="panel-title">PROJECT - @Model.ProjectViewModels[i].Name</h4>
+                        @Html.HiddenFor(x => @Model.ProjectViewModels[i].Name)
+                    </div>
                 </div>
+                <div class="panel-body">
+                    <div class="col-md-12 pull-left">
+                        <span>@Model.ProjectViewModels[i].Introduction</span>
+                        @Html.HiddenFor(x => @Model.ProjectViewModels[i].Introduction)
+                    </div>
+                    <div class="col-md-3">
+                        <span>Name: @Model.ProjectViewModels[i].Name</span>
+                    </div>
+                    <div class="col-md-3">
+                        <span>Manager: @Model.ProjectViewModels[i].Manager</span>
+                        @Html.HiddenFor(x => @Model.ProjectViewModels[i].Manager)
+                    </div>
+                    <div class="col-md-6">
+                        <span>Employees: @Model.ProjectViewModels[i].Employees</span>
+                        @Html.HiddenFor(x => @Model.ProjectViewModels[i].Employees)
+                    </div>
+                    <div class="col-md-3">
+                        <span>Client: @Model.ProjectViewModels[i].Client</span>
+                        @Html.HiddenFor(x => @Model.ProjectViewModels[i].Client)
+                    </div>
+                    <div class="col-md-3">
+                        <span>Department: @Model.ProjectViewModels[i].Department</span>
+                        @Html.HiddenFor(x => @Model.ProjectViewModels[i].Department)
+                    </div>
+                    <div class="col-md-6">
+                        <span>OpenDate: @Model.ProjectViewModels[i].OpenDate</span>
+                        @Html.HiddenFor(x => @Model.ProjectViewModels[i].OpenDate)
+                    </div>
+                    <div class="col-md-6">
+                        <span>Conclusion: @Model.ProjectViewModels[i].Conclusion</span>
+                        @Html.HiddenFor(x => @Model.ProjectViewModels[i].Conclusion)
+                    </div>
 
-                <div class="col-md-12 pull-left">
-                    <span>@Model.ProjectViewModels[i].Introduction</span>
-                    @Html.HiddenFor(x => @Model.ProjectViewModels[i].Introduction)
-                </div>
-                <div class="col-md-3">
-                    <span>Name: @Model.ProjectViewModels[i].Name</span>
-                </div>
-                <div class="col-md-3">
-                    <span>Manager: @Model.ProjectViewModels[i].Manager</span>
-                    @Html.HiddenFor(x => @Model.ProjectViewModels[i].Manager)
-                </div>
-                <div class="col-md-6">
-                    <span>Employees: @Model.ProjectViewModels[i].Employees</span>
-                    @Html.HiddenFor(x => @Model.ProjectViewModels[i].Employees)
-                </div>
-                <div class="col-md-3">
-                    <span>Client: @Model.ProjectViewModels[i].Client</span>
-                    @Html.HiddenFor(x => @Model.ProjectViewModels[i].Client)
-                </div>
-                <div class="col-md-3">
-                    <span>Department: @Model.ProjectViewModels[i].Department</span>
-                    @Html.HiddenFor(x => @Model.ProjectViewModels[i].Department)
-                </div>
-                <div class="col-md-6">
-                    <span>OpenDate: @Model.ProjectViewModels[i].OpenDate</span>
-                    @Html.HiddenFor(x => @Model.ProjectViewModels[i].OpenDate)
-                </div>
-                <div class="col-md-6">
-                    <span>Conclusion: @Model.ProjectViewModels[i].Conclusion</span>
-                    @Html.HiddenFor(x => @Model.ProjectViewModels[i].Conclusion)
-                </div>
-
-                <div class="col-md-6">
-                    <span>Budget: @((@Model.ProjectViewModels[i].Budget != null) ? @Model.ProjectViewModels[i].Budget : "Not authorize") </span>
-                    @Html.HiddenFor(x => @Model.ProjectViewModels[i].Budget)
-                </div>
-                <div class="col-md-6">
-                    @Html.CheckBoxFor(x => @Model.ProjectViewModels[i].ForShare, new { id = @Model.ProjectViewModels[i].Name })
+                    <div class="col-md-6">
+                        <span>Budget: @((@Model.ProjectViewModels[i].Budget != null) ? @Model.ProjectViewModels[i].Budget : "Not authorize") </span>
+                        @Html.HiddenFor(x => @Model.ProjectViewModels[i].Budget)
+                    </div>
+                    <div class="col-md-6">
+                        @Html.CheckBoxFor(x => @Model.ProjectViewModels[i].ForShare, new { id = @Model.ProjectViewModels[i].Name })
+                    </div>
                 </div>
             </div>
         </div>
+
     }
     <div class="col-sm-12">
         <hr />
